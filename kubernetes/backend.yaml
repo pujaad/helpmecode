@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: 473921064442.dkr.ecr.ap-south-1.amazonaws.com/helpmecode-backend:latest
+          ports:
+            - containerPort: 4000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+  selector:
+    app: backend
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: helpmecode-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - app.puja.quest
+      secretName: helpmecode-tls-secret
+  rules:
+    - host: app.puja.quest
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 4000
