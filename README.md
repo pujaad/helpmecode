@@ -1,5 +1,16 @@
 # helpmecode 
 
+Brief description of what this project does and its purpose.
+
+## Technology Stack
+
+-**Backend**: [Node.js] (https://nodejs.org/)
+-**Frontend**: [React.js] (https://reactjs.org/)
+
+## Running the Project
+-**Backend**: (node index.js)
+-**Frontend**: (npm start)
+
 Welcome to **Help me Code** - your bridge to expertise!
 ## overview
 
